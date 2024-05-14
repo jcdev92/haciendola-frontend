@@ -1,7 +1,7 @@
 import "./App.css";
 import { AnimatePresence } from "framer-motion";
 import { ProductsPage, DashboardPage } from "./pages/DashboardPage.jsx";
-import { ErrorPage } from "./components/TransitionPages/ErrorPage.jsx";
+import { NotFoundPage } from "./pages/NotFoundPage.jsx";
 import { LoginPage } from "./pages/LoginPage";
 import { ProtectedRoute } from "./components/ProtectedRoute.jsx";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
@@ -23,13 +23,13 @@ function App() {
                 <Route path="" element={<ProductsPage />} />
                 <Route
                   path="*"
-                  element={<ErrorPage error="404 - Page Not Found" />}
+                  element={<NotFoundPage error="404 - Page Not Found" />}
                 />
               </Route>
             </Route>
             <Route
               path="*"
-              element={<ErrorPage error={"404 - Page Not Found"} />}
+              element={<NotFoundPage error={"404 - Page Not Found"} />}
             />
           </Routes>
         </AnimatePresence>

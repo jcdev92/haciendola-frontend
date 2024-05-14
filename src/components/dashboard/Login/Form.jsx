@@ -6,7 +6,7 @@ import { Button, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { errorStore } from "../../../store/useStore";
 
-const Form = ({data, error}) => {
+const Form = ({data}) => {
     const { register, handleSubmit } = useForm();
     const errorState = errorStore((state) => state.message);
 
@@ -22,7 +22,7 @@ const Form = ({data, error}) => {
     <div className="flex flex-row items-center gap-2">
       <FaM />
       <TextInput
-        id="email1"
+        id="email"
         placeholder="email"
         required
         type="email"
@@ -42,7 +42,7 @@ const Form = ({data, error}) => {
       />
     </div>
     <Button type="submit">Login</Button>
-    {error ? <ErrorAlert error={error} /> : errorState ? <ErrorAlert error={errorState}/> : null}
+    {errorState ? <ErrorAlert /> : null}
   </form>
   )
 }

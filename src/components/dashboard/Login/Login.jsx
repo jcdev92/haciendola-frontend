@@ -2,7 +2,7 @@
 import { loginFetch } from "../../../hooks/useFetch";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Loading } from "../../TransitionPages/Loading";
+import { Loading } from "../../Alerts/Loading";
 import Form from "./Form";
 import { errorStore } from "../../../store/useStore";
 

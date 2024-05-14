@@ -19,8 +19,14 @@ const createStore = (storeName, initialState) => {
 
   
 const errorStore = createStore("error-storage", null);
+const successStore = createStore("success-storage", null);
+const productsStore = createStore("products-storage", null);
+const keywordStore = createStore("keyword-storage", null);
 
 
 export {
     errorStore,
+    successStore,
+    productsStore,
+    keywordStore
 }

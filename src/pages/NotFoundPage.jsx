@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-export const ErrorPage = ({error}) => {
+export const NotFoundPage = ({error}) => {
   return (
     <div
       className="

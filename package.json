@@ -10,6 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.17",
+    "@mui/material": "^5.15.17",
+    "@mui/x-date-pickers": "^7.4.0",
     "@tanstack/react-query": "^4.32.6",
     "@tanstack/react-query-devtools": "^4.32.6",
     "axios": "^1.4.0",
@@ -17,15 +22,16 @@
     "flowbite": "^1.6.6",
     "flowbite-react": "^0.4.9",
     "framer-motion": "^10.16.4",
+    "material-react-table": "^2.13.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.0",
     "react-icons": "^5.1.0",
     "react-router-dom": "^6.13.0",
-    "typewriter-effect": "^2.21.0",
     "zustand": "^4.3.8"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^4.0.0",
