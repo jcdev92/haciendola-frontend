@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
-import { Products } from "../components/dashboard/Products/Products";
 import { Animated } from "../components/dashboard/Animated";
+import { Sidebar } from "../components/dashboard/Sidebar";
+import { Products } from "../components/dashboard/Products.jsx/Products";
 
 export const DashboardPage = () => {
   return (
@@ -8,11 +9,12 @@ export const DashboardPage = () => {
       className="
       hidden
     md:flex-row
-    h-screen
-    w-screen
+    h-full
+    w-full
     lg:flex
     flex-col
     items-center
+    justify-between
     bg-milky-way
     bg-cover
     bg-center
@@ -24,6 +26,7 @@ export const DashboardPage = () => {
     "
     >
       <div className="absolute inset-0 z-0 bg-gradient-to-tr from-black to-blue-700 opacity-80 animate-gradient-x"></div>
+      <Sidebar />
       <Outlet />
     </div>
   );
@@ -31,7 +34,7 @@ export const DashboardPage = () => {
 
 export const ProductsPage = () => {
   return (
-    <div className="w-full h-full">
+    <div className="w-5/6 h-full">
       <Animated>
         <Products />
       </Animated>

@@ -59,9 +59,10 @@ export const usStates = [
   
   
   export const data = [...Array(100)].map(() => ({
+    id: faker.number.int(),
     address: faker.location.streetAddress(),
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
-    phoneNumber: faker.phone.number(),
+    email: faker.internet.email(),
     state: faker.location.state(),
   }));

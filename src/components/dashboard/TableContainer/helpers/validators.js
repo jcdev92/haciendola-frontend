@@ -7,12 +7,13 @@ const validateEmail = (email) =>
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     );
 
-export function validateUser(user) {
+export function validateData(values) {
+  const {firstName, lastName, email} = values
   return {
-    firstName: !validateRequired(user.firstName)
+    firstName: !validateRequired(firstName)
       ? 'First Name is Required'
       : '',
-    lastName: !validateRequired(user.lastName) ? 'Last Name is Required' : '',
-    email: !validateEmail(user.email) ? 'Incorrect Email Format' : '',
+    lastName: !validateRequired(lastName) ? 'Last Name is Required' : '',
+    email: !validateEmail(email) ? 'Incorrect Email Format' : '',
   };
 }

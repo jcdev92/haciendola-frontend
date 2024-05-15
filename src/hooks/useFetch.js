@@ -4,7 +4,7 @@ export const url_api = import.meta.env.VITE_API_URL_DEV;
 const api_base = import.meta.env.VITE_API_BASE_URL_DEV;
 
 // axios configuration
-const instance = axios.create({
+export const instance = axios.create({
   baseURL: `${url_api}/${api_base}`,
 });
 
@@ -14,7 +14,7 @@ instance.interceptors.request.use(config => {
   const token = localStorage.getItem('token');
   // Si hay token, añadirlo al header de autorización
   if (token) {
-    config.headers['Authorization'] = 'jwt ' + token;
+    config.headers['Authorization'] = 'bearer ' + token;
   }
   // Devolver la configuración modificada
   return config;
@@ -35,15 +35,15 @@ export const getMany = (keyword) => {
     };
 };
 
-export const getOne = (keyword) => {
+export const getOne = async(keyword) => {
     return async({id}) => {
-        const res = await instance.get(`/${keyword}/${id}`)
-        return res.data;
-    };
+    const res = await instance.get(`/${keyword}/${id}`)
+    return res.data;
+    }
 }
 
 
-export const addOne = (keyword) => {
+export const addOne = async(keyword) => {
     return async(data) => {
         const res = await instance.post(`/${keyword}`, data);
         return res.data;
@@ -51,17 +51,16 @@ export const addOne = (keyword) => {
 };
 
 
-
-export const updateOne = (keyword) => {
-    return async({id, ...data}) => {
+export const updateOne = async(keyword) => {
+    return async({id, data}) => {
         const res = await instance.patch(`/${keyword}/${id}`, data);
         return res.data;
     };
 };
 
 
-export const deleteOne = (keyword) => {
-    return async(id) => {
+export const deleteOne = async(keyword) => {
+    return async({id}) => {
         const res = await instance.delete(`/${keyword}/${id}`);
         return res.data;
     };
