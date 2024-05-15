@@ -35,7 +35,7 @@ export const Login = () => {
   };
 
   return (
-    <div className=" flex flex-col justify-center items-center h-screen bg-gradient-to-r from-gray-200 to-orange-400 text-white font-mono">
+    <div className=" flex flex-col justify-center items-center h-screen bg-gradient-to-r from-orange-300 to-orange-600 text-white font-mono">
       {loading ? <Loading /> : <Form data={onSubmit} />}
     </div>
   );
