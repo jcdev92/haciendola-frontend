@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Animated } from "../components/dashboard/Animated";
 import { Sidebar } from "../components/dashboard/Sidebar";
-import { Products } from "../components/dashboard/Products.jsx/Products";
+import { Products } from "../components/dashboard/Products/Products";
 
 export const DashboardPage = () => {
   return (
