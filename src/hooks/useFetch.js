@@ -43,27 +43,22 @@ export const getOne = async(keyword) => {
 }
 
 
-export const addOne = async(keyword) => {
-    return async(data) => {
-        const res = await instance.post(`/${keyword}`, data);
-        return res.data;
-    };
+export const addOne = async(keyword, data) => {
+    const res = await instance.post(`/${keyword}`, data);
+    return res.data;
 };
 
 
-export const updateOne = async(keyword) => {
-    return async({id, data}) => {
-        const res = await instance.patch(`/${keyword}/${id}`, data);
-        return res.data;
-    };
+export const updateOne = async(keyword, {id, data}) => {
+    const res = await instance.patch(`/${keyword}/${id}`, data);
+    return res.data;
 };
 
 
-export const deleteOne = async(keyword) => {
-    return async({id}) => {
-        const res = await instance.delete(`/${keyword}/${id}`);
-        return res.data;
-    };
+export const deleteOne = async(keyword, id) => {
+    const res = await instance.delete(`/${keyword}/${id}`);
+    return res.data;
+
 };
 
 export const checkTokenExpired = async (token) => {
