@@ -1,5 +1,6 @@
 export const parseCreateValues = (values) => {
 
+    // eslint-disable-next-line no-unused-vars
     const { id, isActive, stock, price, comparePrice, ...rest } = values;
     
     // string to number
