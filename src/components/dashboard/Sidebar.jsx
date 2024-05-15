@@ -22,7 +22,7 @@ export const Sidebar = () => {
     <>
       <aside
         id="default-sidebar"
-        className="h-screen w-1/6 bg-transparent flex items-center justify-center dark:bg-gray-800 z-30"
+        className="md:w-1/6 bg-transparent md:flex md:h-screen dark:bg-gray-800 z-30"
         aria-label="Sidebar"
       >
         <div className="hidden m-4 w-full md:flex flex-col justify-aroun ml-3 px-4 py-4 overflow-y-auto scrollbar-thin scrollbar-track-rounded-lg scrollbar-thumb-rounded-lg scrollbar-thumb-blue-600 scrollbar-track-transparent backdrop-blur-md rounded-md shadow-md shadow-blue-500 hover:scale-98 hover:shadow-sm hover:shadow-blue-200 transition-all ease-in-out duration-200">

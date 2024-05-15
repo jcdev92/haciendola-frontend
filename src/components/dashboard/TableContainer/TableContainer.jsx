@@ -16,7 +16,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useMemo } from "react";
 import { Loading } from "../../Alerts/Loading";
-import { parseCreateValues, parseUpdateValues } from "./helpers/parseValues";
+import { parseValues, parseUpdateValues } from "./helpers/parseValues";
 import { ErrorAlert } from "../../Alerts/ErrorAlert";
 import { errorStore } from "../../../store/useStore";
 
@@ -217,7 +217,7 @@ export const TableContainer = ({ keyword }) => {
 
   //CREATE action
   const handleCreateData = async ({ values, table }) => {
-    const parsedValues = parseCreateValues(values)
+    const parsedValues = parseValues(values)
     const newValidationErrors = validateData(parsedValues);
     if (Object.values(newValidationErrors).some((error) => error)) {
       setValidationErrors(newValidationErrors);
@@ -263,15 +263,15 @@ export const TableContainer = ({ keyword }) => {
       : undefined,
     muiTableContainerProps: {
       sx: {
-        minHeight: "500px",
         overflow: "auto",
+        maxHeight: "700px",
       },
     },
     muiTableBodyCellProps: {
       sx: {
         overflow: "hidden",
         textOverflow: "ellipsis",
-        whiteSpace: "nowrap",
+        maxWidth: "200px",
       },
     },
     onCreatingRowCancel: () => setValidationErrors({}),
@@ -313,7 +313,7 @@ export const TableContainer = ({ keyword }) => {
   });
 
   return (
-    <div className="flex justify-center items-center w-full h-screen p-8">
+    <div className="md:flex md:justify-center md:items-center md:w-full md:h-screen md:p-8">
       {isLoading || isFetching ? (
         <Loading />
       ) : (

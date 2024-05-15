@@ -1,4 +1,4 @@
-export const parseCreateValues = (values) => {
+export const parseValues = (values) => {
 
     // eslint-disable-next-line no-unused-vars
     const { id, isActive, stock, price, comparePrice, ...rest } = values;
@@ -8,11 +8,22 @@ export const parseCreateValues = (values) => {
     const priceNumber = Number(price);
     const compareNumber = Number(comparePrice);
 
-    const newValues = {
-        stock: stockNumber,
-        price: priceNumber,
-        comparePrice: compareNumber,
-        ...rest
+    let newValues;
+    if (isActive === "") {
+        newValues = {
+            stock: stockNumber,
+            price: priceNumber,
+            comparePrice: compareNumber,
+            ...rest
+        }
+    } else if (isActive === true || isActive == false) {
+        newValues = {
+            stock: stockNumber,
+            price: priceNumber,
+            comparePrice: compareNumber,
+            isActive,
+            ...rest
+        }
     }
 
     return newValues;
@@ -21,15 +32,13 @@ export const parseCreateValues = (values) => {
 
 export const parseUpdateValues = (values) => {
 
-    const { id, ...rest } = values;
+    const parsedValues = parseValues(values);
 
-    const newValues = {
-        ...rest
-    }
+    const { id, ...rest } = parsedValues;
 
     return {
         id,
-        newValues
+        rest
     };
 
 }
