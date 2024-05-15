@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "../../Alerts/Loading";
 import Form from "./Form";
-import { errorStore, productsStore } from "../../../store/useStore";
+import { errorStore } from "../../../store/useStore";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -13,10 +13,17 @@ export const Login = () => {
     setLoading(true);
     loginFetch(data)
       .then((res) => {
-        localStorage.setItem("token", res.data.token);
-        productsStore.setState(res.data.products);
-        navigate("/dashboard");
-        setLoading(false);
+        if (res.status === 201) {
+          localStorage.setItem("token", res.data.token);
+          navigate("/dashboard");
+          setLoading(false);
+        } else if (res.status === 404) {
+          errorStore.setState({
+            status: res.status,
+            message: "not found url"
+          })
+          setLoading(false);
+        }
       })
       .catch((err) => {
         err && errorStore.setState({
@@ -28,7 +35,7 @@ export const Login = () => {
   };
 
   return (
-    <div className=" flex flex-col justify-center items-center h-screen bg-gradient-to-r from-blue-800 to-indigo-900 text-white font-mono">
+    <div className=" flex flex-col justify-center items-center h-screen bg-gradient-to-r from-gray-200 to-orange-400 text-white font-mono">
       {loading ? <Loading /> : <Form data={onSubmit} />}
     </div>
   );

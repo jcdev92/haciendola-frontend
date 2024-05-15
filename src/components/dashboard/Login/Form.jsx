@@ -41,7 +41,7 @@ const Form = ({data}) => {
         {...register("password", { required: true })}
       />
     </div>
-    <Button type="submit">Login</Button>
+    <Button className="hover:scale-125 hover:text-red-700 ease-in-out transition-all delay-150" type="submit">Login</Button>
     {errorState ? <ErrorAlert /> : null}
   </form>
   )
