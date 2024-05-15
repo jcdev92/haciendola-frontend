@@ -217,26 +217,26 @@ export const TableContainer = ({ keyword }) => {
 
   //CREATE action
   const handleCreateData = async ({ values, table }) => {
-    const newValidationErrors = validateData(values);
+    const parsedValues = parseCreateValues(values)
+    const newValidationErrors = validateData(parsedValues);
     if (Object.values(newValidationErrors).some((error) => error)) {
       setValidationErrors(newValidationErrors);
       return;
     }
     setValidationErrors({});
-    const parsedValues = parseCreateValues(values)
     await createData(parsedValues);
     table.setCreatingRow(null); //exit creating mode
   };
 
   //UPDATE action
   const handleSaveData = async ({ values, table }) => {
-    const newValidationErrors = validateData(values);
+    const parsedValues = parseUpdateValues(values)
+    const newValidationErrors = validateData(parsedValues);
     if (Object.values(newValidationErrors).some((error) => error)) {
       setValidationErrors(newValidationErrors);
       return;
     }
     setValidationErrors({});
-    const parsedValues = parseUpdateValues(values)
     await updateData(parsedValues);
     table.setEditingRow(null); //exit editing mode
   };
