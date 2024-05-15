@@ -14,26 +14,24 @@ function App() {
   const location = useLocation();
   return (
     <QueryClientProvider client={queryClient}>
-      <>
-        <AnimatePresence mode="wait">
-          <Routes key={location.pathname} location={location}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/dashboard/*" element={<DashboardPage />}>
-                <Route path="" element={<ProductsPage />} />
-                <Route
-                  path="*"
-                  element={<NotFoundPage error="404 - Page Not Found" />}
-                />
-              </Route>
+      <AnimatePresence mode="wait">
+        <Routes key={location.pathname} location={location}>
+          <Route path="/" element={<LoginPage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard/*" element={<DashboardPage />}>
+              <Route path="" element={<ProductsPage />} />
+              <Route
+                path="*"
+                element={<NotFoundPage error="404 - Page Not Found" />}
+              />
             </Route>
-            <Route
-              path="*"
-              element={<NotFoundPage error={"404 - Page Not Found"} />}
-            />
-          </Routes>
-        </AnimatePresence>
-      </>
+          </Route>
+          <Route
+            path="*"
+            element={<NotFoundPage error={"404 - Page Not Found"} />}
+          />
+        </Routes>
+      </AnimatePresence>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

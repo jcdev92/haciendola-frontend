@@ -1,6 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import { Table } from "../Table/TableContainer";
-export const Products = () => {
+export const DoesntWork = () => {
   const keyword = "product";
   return (
     <div className="flex flex-col w-full bg-transparent h-screen items-center justify-center text-white text-4xl">
