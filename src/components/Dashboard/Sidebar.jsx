@@ -10,7 +10,7 @@ import { errorStore, successStore } from "../../store/useStore";
 export const Sidebar = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
-    navigate("login");
+    navigate("/");
     localStorage.removeItem("token");
     errorStore.getState().clearState()
     successStore.getState().clearState()

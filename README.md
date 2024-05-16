@@ -21,7 +21,7 @@
     - Puedes usar las valores de las variables de entorno que ya estan por defecto, o cambiarlos por los que tu prefieras.
 
     - empieza desde aqui:
-    http://localhost:5137/login
+    http://localhost:5137
 
 ## Installation
 

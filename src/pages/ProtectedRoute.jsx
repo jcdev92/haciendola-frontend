@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { errorStore } from "../store/useStore";
 import { checkTokenExpired } from "../hooks/useFetch";
 
-export const ProtectedRoute = ({ redirectTo = "/login", children }) => {
+export const ProtectedRoute = ({ redirectTo = "/", children }) => {
   const [isAllowed, setIsAllowed] = useState(true);
   const token = localStorage.getItem("token");
 

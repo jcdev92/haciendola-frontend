@@ -314,13 +314,13 @@ export const TableContainer = ({ keyword }) => {
 
   return (
     <div className="md:flex-col md:justify-center md:items-center md:w-full md:h-screen md:p-8">
+      {errorStatus ? <ErrorAlert /> : null }
+      {successStatus ? <SuccessAlert /> : null}
       {isLoading || isFetching ? (
         <Loading />
       ) : (
         <MaterialReactTable table={table} />
       )}
-      {errorStatus ? <ErrorAlert /> : null }
-      {successStatus ? <SuccessAlert /> : null}
     </div>
   );
 };

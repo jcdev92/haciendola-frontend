@@ -3,7 +3,7 @@ import { AnimatePresence } from "framer-motion";
 import { ProductsPage, DashboardPage } from "./pages/DashboardPage.jsx";
 import { NotFoundPage } from "./pages/NotFoundPage.jsx";
 import { LoginPage } from "./pages/LoginPage";
-import { ProtectedRoute } from "./components/ProtectedRoute.jsx";
+import { ProtectedRoute } from "./pages/ProtectedRoute";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Routes, Route, useLocation } from "react-router-dom";
@@ -16,7 +16,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AnimatePresence mode="wait">
         <Routes key={location.pathname} location={location}>
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={<LoginPage />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard/*" element={<DashboardPage />}>
               <Route path="" element={<ProductsPage />} />
