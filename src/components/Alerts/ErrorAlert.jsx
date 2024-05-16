@@ -33,6 +33,7 @@ export const ErrorAlert = () => {
         aria-label="Close"
         onClick={() => {
           errorStore.setState({
+            status: null,
             message: null
           })
           document.getElementById("alert-2").style.display = "none";

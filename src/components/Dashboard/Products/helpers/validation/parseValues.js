@@ -27,14 +27,13 @@ export const parseValues = (values) => {
 }
 
 export const parseUpdateValues = (values) => {
+    const { id, ...rest } = values;
 
-    const parsedValues = parseValues(values);
-
-    const { id, ...rest } = parsedValues;
+    const parsedValues = parseValues(rest);
 
     return {
         id,
-        rest
+        parsedValues
     };
 
 }

@@ -1,6 +1,13 @@
 /* eslint-disable react/prop-types */
 
-export const SuccessAlert = ({ status, message }) => {
+import { successStore } from "../../store/useStore";
+
+export const SuccessAlert = () => {
+  const {
+    status,
+    message
+  } = successStore.getState()
+
   return (
     <div
       id="alert-3"
@@ -24,6 +31,10 @@ export const SuccessAlert = ({ status, message }) => {
         data-dismiss-target="#alert-3"
         aria-label="Close"
         onClick={() => {
+          successStore.setState({
+            status: null,
+            message: null
+          })
           document.getElementById("alert-3").style.display = "none";
         }}
       >

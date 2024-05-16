@@ -10,15 +10,15 @@ import {
   useDelete,
   useGet,
 } from "../../../hooks/queryData";
-import { useState } from "react";
-import { validateData } from "./helpers/validators";
+import { ErrorAlert } from "../../Alerts/ErrorAlert";
+import { SuccessAlert } from "../../Alerts/SuccessAlert";
+import { Loading } from "../../Alerts/Loading";
+import { parseValues, parseUpdateValues } from "../Products/helpers/validation/parseValues";
+import { useMemo, useState } from "react";
+import { validateData } from "../Products/helpers/validation/validators";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useMemo } from "react";
-import { Loading } from "../../Alerts/Loading";
-import { parseValues, parseUpdateValues } from "./helpers/parseValues";
-import { ErrorAlert } from "../../Alerts/ErrorAlert";
-import { errorStore } from "../../../store/useStore";
+import { handleErrorOrSuccess } from "../../Alerts/handler/handleErrorOrSuccess";
 
 export const TableContainer = ({ keyword }) => {
   const [validationErrors, setValidationErrors] = useState({});
@@ -194,21 +194,18 @@ export const TableContainer = ({ keyword }) => {
   const { data: fetchedData = [], isError, isFetching, isLoading} = useGet(keyword);
 
   //call CREATE hook
-  const { mutateAsync: createData, isPending: isCreating, isError: isErrorCreate, status: statusCreate, error: errorCreate } = useCreate(keyword);
-  if (isErrorCreate) {
-    errorStore.setState(
-      {
-        status: statusCreate.response?.data.statusCode,
-        message: errorCreate.response?.data.message.join(' ').split('')
-      }
-    )
-  }
+  const { mutateAsync: createData, isPending: isCreating, isError: isErrorCreate, status: statusCreate, error: errorCreate, isSuccess: isSuccessCreate } = useCreate(keyword);
+  handleErrorOrSuccess(isErrorCreate, isSuccessCreate, errorCreate, statusCreate);
+
 
   //call UPDATE hook
-  const { mutateAsync: updateData, isPending: isUpdating } = useUpdate(keyword);
+  const { mutateAsync: updateData, isPending: isUpdating, isError: isErrorUpdate, status: statusUpdate, error: errorUpdate, isSuccess: isSuccessUpdate } = useUpdate(keyword);
+  handleErrorOrSuccess(isErrorUpdate, isSuccessUpdate, errorUpdate, statusUpdate);
+
 
   //call DELETE hook
-  const { mutateAsync: deleteData, isPending: isDeleting } = useDelete(keyword);
+  const { mutateAsync: deleteData, isPending: isDeleting, isError: isErrorDelete, status: statusDelete, error: errorDelete, isSuccess: isSuccessDelete } = useDelete(keyword);
+  handleErrorOrSuccess(isErrorDelete, isSuccessDelete, errorDelete, statusDelete);
 
   //CREATE action
   const handleCreateData = async ({ values, table }) => {
@@ -238,7 +235,7 @@ export const TableContainer = ({ keyword }) => {
 
   //DELETE action
   const openDeleteConfirmModal = (row) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
+    if (window.confirm(`Are you sure you want to delete this ${keyword.toLowerCase()}?`)) {
       deleteData(row.original.id);
     }
   };
@@ -314,7 +311,8 @@ export const TableContainer = ({ keyword }) => {
       ) : (
         <MaterialReactTable table={table} />
       )}
-      {isError || isErrorCreate ? <ErrorAlert /> : null}
+      {isError || isErrorCreate || isErrorUpdate || isErrorDelete ? <ErrorAlert /> : <SuccessAlert /> }
+      {isSuccessCreate || isSuccessUpdate || isSuccessDelete ? <SuccessAlert /> : <ErrorAlert />}
     </div>
   );
 };
