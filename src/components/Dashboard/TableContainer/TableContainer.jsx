@@ -191,23 +191,18 @@ export const TableContainer = ({ keyword }) => {
   );
 
   //call GET hook
-  const { data: fetchedData = [], isError, isFetching, isLoading } = useGet(keyword);
-  
-  if (isError) {
+  const { data: fetchedData = [], isError, isFetching, isLoading} = useGet(keyword);
+
+  //call CREATE hook
+  const { mutateAsync: createData, isPending: isCreating, isError: isErrorCreate, status: statusCreate, error: errorCreate } = useCreate(keyword);
+  if (isErrorCreate) {
     errorStore.setState(
       {
-        status: isError.valueOf(
-          "status"
-        ),
-        message: isError.valueOf(
-          "message"
-        ),
+        status: statusCreate.response?.data.statusCode,
+        message: errorCreate.response?.data.message.join(' ').split('')
       }
     )
   }
-
-  //call CREATE hook
-  const { mutateAsync: createData, isPending: isCreating } = useCreate(keyword);
 
   //call UPDATE hook
   const { mutateAsync: updateData, isPending: isUpdating } = useUpdate(keyword);
@@ -264,7 +259,7 @@ export const TableContainer = ({ keyword }) => {
     muiTableContainerProps: {
       sx: {
         overflow: "auto",
-        maxHeight: "700px",
+        maxHeight: "600px",
       },
     },
     muiTableBodyCellProps: {
@@ -313,13 +308,13 @@ export const TableContainer = ({ keyword }) => {
   });
 
   return (
-    <div className="md:flex md:justify-center md:items-center md:w-full md:h-screen md:p-8">
+    <div className="md:flex-col md:justify-center md:items-center md:w-full md:h-screen md:p-8">
       {isLoading || isFetching ? (
         <Loading />
       ) : (
         <MaterialReactTable table={table} />
       )}
-      {isError ? <ErrorAlert /> : null}
+      {isError || isErrorCreate ? <ErrorAlert /> : null}
     </div>
   );
 };

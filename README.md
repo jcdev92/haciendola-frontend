@@ -20,8 +20,8 @@
     - recuerda renombrar el ".env.template" por ".env"
     - Puedes usar las valores de las variables de entorno que ya estan por defecto, o cambiarlos por los que tu prefieras.
 
-    - ruta por defecto:
-    http://localhost:5137
+    - empieza desde aqui:
+    http://localhost:5137/login
 
 ## Installation
 

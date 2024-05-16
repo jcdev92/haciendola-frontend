@@ -16,7 +16,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AnimatePresence mode="wait">
         <Routes key={location.pathname} location={location}>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard/*" element={<DashboardPage />}>
               <Route path="" element={<ProductsPage />} />

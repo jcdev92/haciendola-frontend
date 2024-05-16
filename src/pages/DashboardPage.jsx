@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import { Animated } from "../components/dashboard/Animated";
-import { Sidebar } from "../components/dashboard/Sidebar";
-import { Products } from "../components/dashboard/Products/Products";
+import { Animated } from "../components/Dashboard/Animated";
+import { Sidebar } from "../components/Dashboard/Sidebar";
+import { Products } from "../components/Dashboard/Products/Products";
 
 export const DashboardPage = () => {
   return (
@@ -41,4 +41,3 @@ export const ProductsPage = () => {
     </div>
   );
 };
-
