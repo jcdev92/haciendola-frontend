@@ -8,7 +8,7 @@ import { errorStore } from "../../../store/useStore";
 
 const Form = ({data}) => {
     const { register, handleSubmit } = useForm();
-    const errorState = errorStore((state) => state.message);
+    const errorStatus = errorStore.getState().state.statusCode
 
   return (
     <form
@@ -42,7 +42,7 @@ const Form = ({data}) => {
       />
     </div>
     <Button className="hover:scale-125 hover:text-red-700 ease-in-out transition-all delay-150" type="submit">Login</Button>
-    {errorState ? <ErrorAlert /> : null}
+    {errorStatus ? <ErrorAlert /> : null}
   </form>
   )
 }

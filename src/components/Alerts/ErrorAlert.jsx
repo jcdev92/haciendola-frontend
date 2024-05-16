@@ -6,7 +6,7 @@ export const ErrorAlert = () => {
   const {
     status,
     message,
-  } = errorStore.getState();
+  } = errorStore.getState().state;
 
 
   return (
@@ -32,10 +32,7 @@ export const ErrorAlert = () => {
         data-dismiss-target="#alert-2"
         aria-label="Close"
         onClick={() => {
-          errorStore.setState({
-            status: null,
-            message: null
-          })
+          errorStore.getState().clearError();
           document.getElementById("alert-2").style.display = "none";
         }}
       >

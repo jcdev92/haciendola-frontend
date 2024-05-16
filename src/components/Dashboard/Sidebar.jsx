@@ -5,17 +5,15 @@ import {
 } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { errorStore } from "../../store/useStore";
+import { errorStore, successStore } from "../../store/useStore";
 
 export const Sidebar = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
+    navigate("login");
     localStorage.removeItem("token");
-    errorStore.setState({
-      status: null,
-      message: null,
-    })
-    navigate("/");
+    errorStore.getState().clearState()
+    successStore.getState().clearState()
   };
 
   return (

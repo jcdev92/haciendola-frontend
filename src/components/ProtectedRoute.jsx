@@ -11,8 +11,8 @@ export const ProtectedRoute = ({ redirectTo = "/login", children }) => {
   // check if the token is expired or not
   useEffect(() => {
     if (token === null) {
-      errorStore.setState({
-        status: 401,
+      errorStore.getState().setState({
+        statusCode: 401,
         message: "You need to login first"
       })
       return setIsAllowed(false)
@@ -20,8 +20,8 @@ export const ProtectedRoute = ({ redirectTo = "/login", children }) => {
 
     checkTokenExpired(token)
       .catch((err) => {
-        errorStore.setState({
-          status: err.response.data.statusCode,
+        errorStore.getState().setState({
+          statusCode: err.response.data.statusCode,
           message: err.response.data.message
         })
         setIsAllowed(false);

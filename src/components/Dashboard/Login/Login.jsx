@@ -13,21 +13,22 @@ export const Login = () => {
     setLoading(true);
     loginFetch(data)
       .then((res) => {
+        errorStore.getState().clearState()
         if (res.status === 201) {
           localStorage.setItem("token", res.data.token);
           navigate("/dashboard");
           setLoading(false);
         } else if (res.status === 404) {
-          errorStore.setState({
-            status: res.status,
-            message: "not found url"
+          errorStore.getState().setState({
+            statusCode: res.data.statusCode,
+            message: res.data.message
           })
           setLoading(false);
         }
       })
       .catch((err) => {
-        err && errorStore.setState({
-          status: err.response.data.statusCode,
+        err && errorStore.getState().setState()({
+          statusCode: err.response.data.statusCode,
           message: err.response.data.message
         })
         setLoading(false);

@@ -1,23 +1,25 @@
 import { errorStore, successStore } from "../../../store/useStore"
 
-export const handleErrorOrSuccess = (isError, isSuccess, error, status) => {
+export const handleErrorOrSuccess = (isError, isSuccess, error) => {
   
 
     if (isError) {
-      errorStore.setState(
+      errorStore.getState().setState(
         {
-          status: status.response?.data.statusCode,
-          message: error.response?.data.message.join(' ').split('')
+          statusCode: error.response?.data.statusCode,
+          message: error.response?.data.message.join(', ').slice('')
         }
       )
+      successStore.getState().clearState()
     }
 
     if (isSuccess) {
-      successStore.setState(
+      successStore.getState().setState(
         {
-          status: 200,
+          statusCode: 200,
           message: 'operation successfuflly completed'
         }
       )
+      errorStore.getState().clearState()
     }
 }

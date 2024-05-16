@@ -18,10 +18,18 @@ import { useMemo, useState } from "react";
 import { validateData } from "../Products/helpers/validation/validators";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { errorStore, successStore } from "../../../store/useStore"
 import { handleErrorOrSuccess } from "../../Alerts/handler/handleErrorOrSuccess";
 
 export const TableContainer = ({ keyword }) => {
   const [validationErrors, setValidationErrors] = useState({});
+
+  const errorStatus = errorStore.getState().state.statusCode;
+  const successStatus = successStore.getState().state.statusCode;
+
+  const messageError = errorStore.getState().state.message
+
+  console.log(errorStatus, successStatus, messageError)
 
   const columns = useMemo(
     () => [
@@ -194,18 +202,18 @@ export const TableContainer = ({ keyword }) => {
   const { data: fetchedData = [], isError, isFetching, isLoading} = useGet(keyword);
 
   //call CREATE hook
-  const { mutateAsync: createData, isPending: isCreating, isError: isErrorCreate, status: statusCreate, error: errorCreate, isSuccess: isSuccessCreate } = useCreate(keyword);
-  handleErrorOrSuccess(isErrorCreate, isSuccessCreate, errorCreate, statusCreate);
+  const { mutateAsync: createData, isPending: isCreating, isError: isErrorCreate, error: errorCreate, isSuccess: isSuccessCreate } = useCreate(keyword);
+  handleErrorOrSuccess(isErrorCreate, isSuccessCreate, errorCreate);
 
 
   //call UPDATE hook
-  const { mutateAsync: updateData, isPending: isUpdating, isError: isErrorUpdate, status: statusUpdate, error: errorUpdate, isSuccess: isSuccessUpdate } = useUpdate(keyword);
-  handleErrorOrSuccess(isErrorUpdate, isSuccessUpdate, errorUpdate, statusUpdate);
+  const { mutateAsync: updateData, isPending: isUpdating, isError: isErrorUpdate, error: errorUpdate, isSuccess: isSuccessUpdate } = useUpdate(keyword);
+  handleErrorOrSuccess(isErrorUpdate, isSuccessUpdate, errorUpdate);
 
 
   //call DELETE hook
-  const { mutateAsync: deleteData, isPending: isDeleting, isError: isErrorDelete, status: statusDelete, error: errorDelete, isSuccess: isSuccessDelete } = useDelete(keyword);
-  handleErrorOrSuccess(isErrorDelete, isSuccessDelete, errorDelete, statusDelete);
+  const { mutateAsync: deleteData, isPending: isDeleting, isError: isErrorDelete, error: errorDelete, isSuccess: isSuccessDelete } = useDelete(keyword);
+  handleErrorOrSuccess(isErrorDelete, isSuccessDelete, errorDelete);
 
   //CREATE action
   const handleCreateData = async ({ values, table }) => {
@@ -311,8 +319,8 @@ export const TableContainer = ({ keyword }) => {
       ) : (
         <MaterialReactTable table={table} />
       )}
-      {isError || isErrorCreate || isErrorUpdate || isErrorDelete ? <ErrorAlert /> : <SuccessAlert /> }
-      {isSuccessCreate || isSuccessUpdate || isSuccessDelete ? <SuccessAlert /> : <ErrorAlert />}
+      {errorStatus ? <ErrorAlert /> : null }
+      {successStatus ? <SuccessAlert /> : null}
     </div>
   );
 };

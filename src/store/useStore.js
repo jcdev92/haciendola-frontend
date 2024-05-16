@@ -18,15 +18,16 @@ const createStore = (storeName, initialState) => {
   };
 
   
-const errorStore = createStore("error-storage", null);
-const successStore = createStore("success-storage", null);
-const productsStore = createStore("products-storage", null);
-const keywordStore = createStore("keyword-storage", null);
-
+const errorStore = createStore("error-storage", {
+    statusCode: null,
+    message: null,
+});
+const successStore = createStore("success-storage", {
+    statusCode: null,
+    message: null,
+});
 
 export {
     errorStore,
     successStore,
-    productsStore,
-    keywordStore
 }

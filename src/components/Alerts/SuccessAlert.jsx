@@ -6,7 +6,7 @@ export const SuccessAlert = () => {
   const {
     status,
     message
-  } = successStore.getState()
+  } = successStore.getState().state
 
   return (
     <div
@@ -31,10 +31,7 @@ export const SuccessAlert = () => {
         data-dismiss-target="#alert-3"
         aria-label="Close"
         onClick={() => {
-          successStore.setState({
-            status: null,
-            message: null
-          })
+          successStore.getState().clearError();
           document.getElementById("alert-3").style.display = "none";
         }}
       >
