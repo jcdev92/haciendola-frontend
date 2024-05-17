@@ -27,7 +27,13 @@ const successStore = createStore("success-storage", {
     message: null,
 });
 
+const tokenStatusStore = createStore("token-storage", {
+  isLoggedIn: false,
+});
+
+
 export {
     errorStore,
     successStore,
+    tokenStatusStore,
 }

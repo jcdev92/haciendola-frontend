@@ -1,38 +1,18 @@
 /* eslint-disable react/prop-types */
 import { Navigate, Outlet } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { errorStore } from "../store/useStore";
-import { checkTokenExpired } from "../hooks/useFetch";
+import { tokenStatusStore } from "../store/useStore";
+import { checkTokenStatus } from "../hooks/queryData";
 
 export const ProtectedRoute = ({ redirectTo = "/", children }) => {
-  const [isAllowed, setIsAllowed] = useState(true);
+
   const token = localStorage.getItem("token");
+  checkTokenStatus(token)
 
-  // check if the token is expired or not
-  useEffect(() => {
-    if (token === null) {
-      errorStore.getState().setState({
-        statusCode: 401,
-        message: "You need to login first"
-      })
-      return setIsAllowed(false)
-    }
-
-    checkTokenExpired(token)
-      .catch((err) => {
-        errorStore.getState().setState({
-          statusCode: err.response.data.statusCode,
-          message: err.response.data.message
-        })
-        setIsAllowed(false);
-      });
-      
-  }, [token]);
-
- 
+  const tokenState = tokenStatusStore.getState().state.isLoggedIn;
+  console.log(tokenState)
 
   // validate if the token is expired or not
-  if (!isAllowed) {
+  if (tokenState === false) {
     return <Navigate to={redirectTo} />;
   }
 

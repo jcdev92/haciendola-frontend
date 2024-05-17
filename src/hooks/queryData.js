@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addOne, deleteOne, getMany, updateOne } from "./useFetch";
+import { addOne, checkTokenExpired, deleteOne, getMany, loginFetch, updateOne } from "./useFetch";
+import { errorStore, tokenStatusStore } from "../store/useStore";
 
   
   // CREATE hook (corrected)
@@ -14,7 +15,6 @@ import { addOne, deleteOne, getMany, updateOne } from "./useFetch";
     });
     return mutation;
   }
-  
   
   //READ hook
   export function useGet(keyword) {
@@ -42,3 +42,27 @@ import { addOne, deleteOne, getMany, updateOne } from "./useFetch";
       onSettled: () => queryClient.invalidateQueries({ queryKey: [keyword] }),
     });
   }
+  
+  export function checkTokenStatus(token) {
+    if (token === null) {
+      errorStore.getState().setState({
+        statusCode: 401,
+        message: "You need to login first"
+      })
+      tokenStatusStore.getState().setState({
+        isLoggedIn: false
+      });
+    }
+  
+    checkTokenExpired(token)
+      .catch((err) => {
+        errorStore.getState().setState({
+          statusCode: err.response.data.statusCode,
+          message: err.response.data.message
+        })
+        tokenStatusStore.getState().setState({
+          isLoggedIn: false
+        });
+      });
+  }
+

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 /* eslint-disable react/prop-types */
 import {
   MaterialReactTable,
@@ -9,15 +10,16 @@ import {
   useUpdate,
   useDelete,
   useGet,
+  checkTokenStatus,
 } from "../../../hooks/queryData";
 import { ErrorAlert } from "../../Alerts/ErrorAlert";
 import { SuccessAlert } from "../../Alerts/SuccessAlert";
 import { parseValues, parseUpdateValues } from "../Products/helpers/validation/parseValues";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { validateData } from "../Products/helpers/validation/validators";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { errorStore, successStore } from "../../../store/useStore"
+import { errorStore, successStore, tokenStatusStore } from "../../../store/useStore"
 import { handleErrorOrSuccess } from "../../Alerts/handler/handleErrorOrSuccess";
 
 export const TableContainer = ({ keyword }) => {
@@ -25,6 +27,15 @@ export const TableContainer = ({ keyword }) => {
 
   const errorStatus = errorStore.getState().state.statusCode;
   const successStatus = successStore.getState().state.statusCode;
+  const token = localStorage.getItem("token");
+  const tokenState = tokenStatusStore.getState().state.isLoggedIn;
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!tokenState) {
+      navigate("/");
+      localStorage.removeItem("token");
+    }
+  }, [tokenState, navigate]);
 
   const columns = useMemo(
     () => [
@@ -303,7 +314,7 @@ export const TableContainer = ({ keyword }) => {
       isLoading: isLoading,
       isSaving: isCreating || isUpdating || isDeleting,
       showAlertBanner: isError,
-      showProgressBars: isFetching,
+      showProgressBars: isFetching || checkTokenStatus(token),
     },
   });
 

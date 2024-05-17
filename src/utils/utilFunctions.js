@@ -7,3 +7,7 @@ export function clearEmptyFields(data) {
   }
   return newData;
 }
+
+
+
+
