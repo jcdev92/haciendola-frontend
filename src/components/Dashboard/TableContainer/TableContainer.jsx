@@ -20,7 +20,6 @@ import { validateData } from "../Products/helpers/validation/validators";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { errorStore, successStore, tokenStatusStore } from "../../../store/useStore"
-import { handleErrorOrSuccess } from "../../Alerts/handler/handleErrorOrSuccess";
 
 export const TableContainer = ({ keyword }) => {
   const [validationErrors, setValidationErrors] = useState({});
@@ -208,18 +207,14 @@ export const TableContainer = ({ keyword }) => {
   const { data: fetchedData = [], isError, isFetching, isLoading} = useGet(keyword);
 
   //call CREATE hook
-  const { mutateAsync: createData, isPending: isCreating, isError: isErrorCreate, error: errorCreate, isSuccess: isSuccessCreate } = useCreate(keyword);
-  handleErrorOrSuccess(isErrorCreate, isSuccessCreate, errorCreate);
-
+  const { mutateAsync: createData, isPending: isCreating } = useCreate(keyword);
 
   //call UPDATE hook
-  const { mutateAsync: updateData, isPending: isUpdating, isError: isErrorUpdate, error: errorUpdate, isSuccess: isSuccessUpdate } = useUpdate(keyword);
-  handleErrorOrSuccess(isErrorUpdate, isSuccessUpdate, errorUpdate);
-
-
+  const { mutateAsync: updateData, isPending: isUpdating } = useUpdate(keyword);
+ 
   //call DELETE hook
-  const { mutateAsync: deleteData, isPending: isDeleting, isError: isErrorDelete, error: errorDelete, isSuccess: isSuccessDelete } = useDelete(keyword);
-  handleErrorOrSuccess(isErrorDelete, isSuccessDelete, errorDelete);
+  const { mutateAsync: deleteData, isPending: isDeleting } = useDelete(keyword);
+
 
   //CREATE action
   const handleCreateData = async ({ values, table }) => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 "use client";
 import { loginFetch } from "../../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
