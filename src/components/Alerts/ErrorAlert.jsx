@@ -32,7 +32,7 @@ export const ErrorAlert = () => {
         data-dismiss-target="#alert-2"
         aria-label="Close"
         onClick={() => {
-          errorStore.getState().clearError();
+          errorStore.getState().clearState()
           document.getElementById("alert-2").style.display = "none";
         }}
       >

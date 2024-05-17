@@ -12,7 +12,6 @@ import {
 } from "../../../hooks/queryData";
 import { ErrorAlert } from "../../Alerts/ErrorAlert";
 import { SuccessAlert } from "../../Alerts/SuccessAlert";
-import { Loading } from "../../Alerts/Loading";
 import { parseValues, parseUpdateValues } from "../Products/helpers/validation/parseValues";
 import { useMemo, useState } from "react";
 import { validateData } from "../Products/helpers/validation/validators";
@@ -26,10 +25,6 @@ export const TableContainer = ({ keyword }) => {
 
   const errorStatus = errorStore.getState().state.statusCode;
   const successStatus = successStore.getState().state.statusCode;
-
-  const messageError = errorStore.getState().state.message
-
-  console.log(errorStatus, successStatus, messageError)
 
   const columns = useMemo(
     () => [
@@ -316,11 +311,7 @@ export const TableContainer = ({ keyword }) => {
     <div className="md:flex-col md:justify-center md:items-center md:w-full md:h-screen md:p-8">
       {errorStatus ? <ErrorAlert /> : null }
       {successStatus ? <SuccessAlert /> : null}
-      {isLoading || isFetching ? (
-        <Loading />
-      ) : (
-        <MaterialReactTable table={table} />
-      )}
+      <MaterialReactTable table={table} />
     </div>
   );
 };

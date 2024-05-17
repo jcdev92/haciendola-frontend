@@ -31,7 +31,7 @@ export const SuccessAlert = () => {
         data-dismiss-target="#alert-3"
         aria-label="Close"
         onClick={() => {
-          successStore.getState().clearError();
+          successStore.getState().clearState()
           document.getElementById("alert-3").style.display = "none";
         }}
       >
