@@ -42,24 +42,28 @@ import { errorStore, successStore, tokenStatusStore } from "../store/useStore";
   export function useUpdate(keyword) {
     const queryClient = useQueryClient();
     return useMutation({
-      mutationFn: async ({id, data}) => await updateOne(keyword, {id, data}),
+      mutationFn: async ({ id, data }) => {
+        const response = await updateOne(keyword, { id, data });
+        return response;
+      },
       onSuccess: () => {
         successStore.getState().setState({
           statusCode: 200,
           message: "Data updated successfully"
-        })
+        });
         queryClient.invalidateQueries(keyword);
-        errorStore.getState().clearState()
+        errorStore.getState().clearState();
       },
       onError: (err) => {
         errorStore.getState().setState({
-          statusCode: err.response.data.message.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" "),
+          statusCode: err.response.data.statusCode,
           message: err.response.data.message
-        })
-        successStore.getState().clearState()
+        });
+        successStore.getState().clearState();
       },
     });
   }
+  
   
   //DELETE hook
   export function useDelete(keyword) {

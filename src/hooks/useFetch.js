@@ -49,10 +49,20 @@ export const addOne = async(keyword, data) => {
 };
 
 
-export const updateOne = async(keyword, {id, data}) => {
-    const res = await instance.patch(`/${keyword}/${id}`, data);
-    return res.data;
-};
+export const updateOne = async (keyword, { id, data }) => {
+    if (!data) {
+      throw new Error('Data is undefined');
+    }
+    try {
+      const res = await instance.patch(`/${keyword}/${id}`, data);
+      return res.data;
+    } catch (error) {
+      console.error('Error updating data:', error);
+      throw error;
+    }
+  };
+  
+
 
 
 export const deleteOne = async(keyword, id) => {

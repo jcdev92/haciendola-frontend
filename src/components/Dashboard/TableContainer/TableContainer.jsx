@@ -23,7 +23,7 @@ import {
   validateUpdateData,
   createObjectValidationErrors,
   processCreateData,
-  processUpdateData
+  processUpdateData,
 } from "../Products/helpers/validation/validators";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -237,33 +237,33 @@ export const TableContainer = ({ keyword }) => {
 
   //CREATE action
   const handleCreateData = async ({ values, table }) => {
-    const parsedValues = processCreateData(values)
+    const parsedValues = processCreateData(values);
     try {
       await validateCreateData(parsedValues);
       setValidationErrors({});
       await createData(parsedValues);
       table.setCreatingRow(null);
     } catch (newValidationErrors) {
-      const validationErrorsObject = createObjectValidationErrors(newValidationErrors);
+      const validationErrorsObject =
+        createObjectValidationErrors(newValidationErrors);
       setValidationErrors(validationErrorsObject);
     }
   };
-  
 
-//UPDATE action
-const handleSaveData = async ({ values, table }) => {
-  const parsedValues = processUpdateData(values)
-  try {
-    await validateUpdateData(parsedValues);
-    setValidationErrors({});
-    await updateData(parsedValues);
-    table.setEditingRow(null);
-  } catch (newValidationErrors) {
-    const validationErrorsObject = createObjectValidationErrors(newValidationErrors);
-    setValidationErrors(validationErrorsObject);
-  }
-};
-
+  //UPDATE action
+  const handleSaveData = async ({ values, table }) => {
+    try {
+      const { id, parsedValues } = processUpdateData(values); // Asegúrate de que esto devuelve los valores correctos
+      await validateUpdateData(parsedValues);
+      setValidationErrors({});
+      await updateData({ id, data: parsedValues }); // Pasa los datos correctamente
+      table.setEditingRow(null);
+    } catch (newValidationErrors) {
+      const validationErrorsObject =
+        createObjectValidationErrors(newValidationErrors);
+      setValidationErrors(validationErrorsObject);
+    }
+  };
 
   //DELETE action
   const openDeleteConfirmModal = (row) => {
@@ -302,9 +302,17 @@ const handleSaveData = async ({ values, table }) => {
         maxWidth: "200px",
       },
     },
-    onCreatingRowCancel: () => setValidationErrors({}),
+    onCreatingRowCancel: () => {
+      setValidationErrors({});
+      successStore.getState().clearState();
+      errorStore.getState().clearState();
+    },
     onCreatingRowSave: handleCreateData,
-    onEditingRowCancel: () => setValidationErrors({}),
+    onEditingRowCancel: () => {
+      setValidationErrors({});
+      successStore.getState().clearState();
+      errorStore.getState().clearState();
+    },
     onEditingRowSave: handleSaveData,
     renderRowActions: ({ row, table }) => (
       <Box sx={{ display: "flex", gap: "1rem" }}>
@@ -326,6 +334,9 @@ const handleSaveData = async ({ values, table }) => {
         variant="contained"
         onClick={() => {
           table.setCreatingRow(true);
+          setValidationErrors({});
+          successStore.getState().clearState();
+          errorStore.getState().clearState();
         }}
       >
         Create New {`${keyword}`}
