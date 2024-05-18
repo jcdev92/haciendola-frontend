@@ -37,3 +37,15 @@ export const parseUpdateValues = (values) => {
     };
 
 }
+
+
+export const createObjectValidationErrors = (newValidationErrors) => {
+    const newArr = newValidationErrors.inner.map((error) => ({
+        [error.path]: error.message,
+    }));
+
+    //transform array to object
+    const newObject = Object.assign({}, ...newArr);
+    return newObject;
+}
+

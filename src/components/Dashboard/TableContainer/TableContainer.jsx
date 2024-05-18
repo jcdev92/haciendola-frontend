@@ -3,7 +3,7 @@ import {  MaterialReactTable,  useMaterialReactTable} from "material-react-table
 import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import { ErrorAlert, SuccessAlert } from "../../Alerts";
 import { errorStore, successStore, tokenStatusStore } from "../../../store/useStore"
-import { parseValues, parseUpdateValues } from "../Products/helpers/validation/parseValues";
+import { parseValues, parseUpdateValues, createObjectValidationErrors } from "../Products/helpers/validation/parseValues";
 import { useCreate,  useUpdate,  useDelete,  useGet,  checkTokenStatus,} from "../../../hooks/queryData";
 import { useEffect, useMemo, useState } from "react";
 import { validateData } from "../Products/helpers/validation/validators";
@@ -27,17 +27,7 @@ export const TableContainer = ({ keyword }) => {
   }, [tokenState, navigate]);
 
 
-  console.log(
-    validationErrors?.handle, 
-    validationErrors?.title,
-    validationErrors?.description,
-    validationErrors?.sku,
-    validationErrors?.grams,
-    validationErrors?.price,
-    validationErrors?.comparePrice,
-    validationErrors?.barcode,
-    validationErrors?.isActiveA,
-  )
+  console.log(validationErrors)
 
   const columns = useMemo(
     () => [
@@ -69,7 +59,7 @@ export const TableContainer = ({ keyword }) => {
         muiEditTextFieldProps: {
           required: true,
           error: !!validationErrors?.title,
-          helperText: validationErrors?.tile,
+          helperText: validationErrors?.title,
           onFocus: () =>
             setValidationErrors({
               ...validationErrors,
@@ -222,11 +212,9 @@ export const TableContainer = ({ keyword }) => {
   //CREATE action
   const handleCreateData = async ({ values, table }) => {
     const parsedValues = parseValues(values)
-    const newValidationErrors = validateData(parsedValues);
-    if (Object.values(newValidationErrors).some((error) => error)) {
-      setValidationErrors(newValidationErrors);
-      return;
-    }
+    validateData(parsedValues).catch((newValidationErrors) => {
+      setValidationErrors(createObjectValidationErrors(newValidationErrors))
+    });
     setValidationErrors({});
     await createData(parsedValues);
     table.setCreatingRow(null); //exit creating mode
