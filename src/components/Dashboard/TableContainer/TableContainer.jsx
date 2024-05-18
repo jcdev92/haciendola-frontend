@@ -1,12 +1,30 @@
 /* eslint-disable react/prop-types */
-import {  MaterialReactTable,  useMaterialReactTable} from "material-react-table";
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+} from "material-react-table";
 import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import { ErrorAlert, SuccessAlert } from "../../Alerts";
-import { errorStore, successStore, tokenStatusStore } from "../../../store/useStore"
-import { parseValues, parseUpdateValues, createObjectValidationErrors } from "../Products/helpers/validation/parseValues";
-import { useCreate,  useUpdate,  useDelete,  useGet,  checkTokenStatus,} from "../../../hooks/queryData";
+import {
+  errorStore,
+  successStore,
+  tokenStatusStore,
+} from "../../../store/useStore";
+import {
+  useCreate,
+  useUpdate,
+  useDelete,
+  useGet,
+  checkTokenStatus,
+} from "../../../hooks/queryData";
 import { useEffect, useMemo, useState } from "react";
-import { validateData } from "../Products/helpers/validation/validators";
+import {
+  validateCreateData,
+  validateUpdateData,
+  createObjectValidationErrors,
+  processCreateData,
+  processUpdateData
+} from "../Products/helpers/validation/validators";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +34,7 @@ export const TableContainer = ({ keyword }) => {
 
   const errorStatus = errorStore.getState().state.statusCode;
   const successStatus = successStore.getState().state.statusCode;
-  const token = localStorage.getItem("token");  
+  const token = localStorage.getItem("token");
   const tokenState = tokenStatusStore.getState().state.isLoggedIn;
   const navigate = useNavigate();
   useEffect(() => {
@@ -25,9 +43,6 @@ export const TableContainer = ({ keyword }) => {
       localStorage.removeItem("token");
     }
   }, [tokenState, navigate]);
-
-
-  console.log(validationErrors)
 
   const columns = useMemo(
     () => [
@@ -41,6 +56,7 @@ export const TableContainer = ({ keyword }) => {
         accessorKey: "handle",
         header: "Handle",
         enableEditing: true,
+        type: "string",
         muiEditTextFieldProps: {
           required: true,
           error: !!validationErrors?.handle,
@@ -56,6 +72,7 @@ export const TableContainer = ({ keyword }) => {
         accessorKey: "title",
         header: "Title",
         enableEditing: true,
+        type: "string",
         muiEditTextFieldProps: {
           required: true,
           error: !!validationErrors?.title,
@@ -71,6 +88,7 @@ export const TableContainer = ({ keyword }) => {
         accessorKey: "description",
         header: "Description",
         enableEditing: true,
+        type: "string",
         muiEditTextFieldProps: {
           error: !!validationErrors?.description,
           helperText: validationErrors?.description,
@@ -85,6 +103,7 @@ export const TableContainer = ({ keyword }) => {
         accessorKey: "sku",
         header: "SKU",
         enableEditing: true,
+        type: "string",
         muiEditTextFieldProps: {
           required: true,
           error: !!validationErrors?.sku,
@@ -100,6 +119,7 @@ export const TableContainer = ({ keyword }) => {
         accessorKey: "grams",
         header: "Grams",
         enableEditing: true,
+        type: "string",
         muiEditTextFieldProps: {
           required: true,
           error: !!validationErrors?.grams,
@@ -115,6 +135,7 @@ export const TableContainer = ({ keyword }) => {
         accessorKey: "stock",
         header: "Stock",
         enableEditing: true,
+        type: "number",
         muiEditTextFieldProps: {
           required: true,
           error: !!validationErrors?.stock,
@@ -130,6 +151,7 @@ export const TableContainer = ({ keyword }) => {
         accessorKey: "price",
         header: "Price",
         enableEditing: true,
+        type: "number",
         muiEditTextFieldProps: {
           required: true,
           error: !!validationErrors?.price,
@@ -145,6 +167,7 @@ export const TableContainer = ({ keyword }) => {
         accessorKey: "comparePrice",
         header: "Compare Price",
         enableEditing: true,
+        type: "number",
         muiEditTextFieldProps: {
           required: true,
           error: !!validationErrors?.comparePrice,
@@ -176,11 +199,10 @@ export const TableContainer = ({ keyword }) => {
         header: "Is Active",
         enableEditing: true,
         type: "boolean",
-        editSelectOptions:
-          [
-            { label: "Yes", value: true },
-            { label: "No", value: false },
-          ],
+        editSelectOptions: [
+          { label: "Yes", value: true },
+          { label: "No", value: false },
+        ],
         muiEditTextFieldProps: {
           select: true,
           error: !!validationErrors?.isActive,
@@ -197,45 +219,59 @@ export const TableContainer = ({ keyword }) => {
   );
 
   //call GET hook
-  const { data: fetchedData = [], isError, isFetching, isLoading} = useGet(keyword);
+  const {
+    data: fetchedData = [],
+    isError,
+    isFetching,
+    isLoading,
+  } = useGet(keyword);
 
   //call CREATE hook
   const { mutateAsync: createData, isPending: isCreating } = useCreate(keyword);
 
   //call UPDATE hook
   const { mutateAsync: updateData, isPending: isUpdating } = useUpdate(keyword);
- 
+
   //call DELETE hook
   const { mutateAsync: deleteData, isPending: isDeleting } = useDelete(keyword);
 
-
   //CREATE action
   const handleCreateData = async ({ values, table }) => {
-    const parsedValues = parseValues(values)
-    validateData(parsedValues).catch((newValidationErrors) => {
-      setValidationErrors(createObjectValidationErrors(newValidationErrors))
-    });
-    setValidationErrors({});
-    await createData(parsedValues);
-    table.setCreatingRow(null); //exit creating mode
-  };
-
-  //UPDATE action
-  const handleSaveData = async ({ values, table }) => {
-    const parsedValues = parseUpdateValues(values)
-    const newValidationErrors = validateData(parsedValues);
-    if (Object.values(newValidationErrors).some((error) => error)) {
-      setValidationErrors(newValidationErrors);
-      return;
+    const parsedValues = processCreateData(values)
+    try {
+      await validateCreateData(parsedValues);
+      setValidationErrors({});
+      await createData(parsedValues);
+      table.setCreatingRow(null);
+    } catch (newValidationErrors) {
+      const validationErrorsObject = createObjectValidationErrors(newValidationErrors);
+      setValidationErrors(validationErrorsObject);
     }
+  };
+  
+
+//UPDATE action
+const handleSaveData = async ({ values, table }) => {
+  const parsedValues = processUpdateData(values)
+  try {
+    await validateUpdateData(parsedValues);
     setValidationErrors({});
     await updateData(parsedValues);
-    table.setEditingRow(null); //exit editing mode
-  };
+    table.setEditingRow(null);
+  } catch (newValidationErrors) {
+    const validationErrorsObject = createObjectValidationErrors(newValidationErrors);
+    setValidationErrors(validationErrorsObject);
+  }
+};
+
 
   //DELETE action
   const openDeleteConfirmModal = (row) => {
-    if (window.confirm(`Are you sure you want to delete this ${keyword.toLowerCase()}?`)) {
+    if (
+      window.confirm(
+        `Are you sure you want to delete this ${keyword.toLowerCase()}?`
+      )
+    ) {
       deleteData(row.original.id);
     }
   };
@@ -306,7 +342,7 @@ export const TableContainer = ({ keyword }) => {
 
   return (
     <div className="md:flex-col md:justify-center md:items-center md:w-full md:h-screen md:p-8">
-      {errorStatus ? <ErrorAlert /> : null }
+      {errorStatus ? <ErrorAlert /> : null}
       {successStatus ? <SuccessAlert /> : null}
       <MaterialReactTable table={table} />
     </div>

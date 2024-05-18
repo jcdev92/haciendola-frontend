@@ -15,6 +15,7 @@ import { errorStore, successStore, tokenStatusStore } from "../store/useStore";
           statusCode: 200,
           message: "Data added successfully"
         })
+        queryClient.invalidateQueries(keyword);
         errorStore.getState().clearState()
       },
       onError: (err) => {
@@ -47,6 +48,7 @@ import { errorStore, successStore, tokenStatusStore } from "../store/useStore";
           statusCode: 200,
           message: "Data updated successfully"
         })
+        queryClient.invalidateQueries(keyword);
         errorStore.getState().clearState()
       },
       onError: (err) => {
@@ -56,7 +58,6 @@ import { errorStore, successStore, tokenStatusStore } from "../store/useStore";
         })
         successStore.getState().clearState()
       },
-      onSettled: () => queryClient.invalidateQueries({ queryKey: [keyword] }),
     });
   }
   
@@ -71,6 +72,7 @@ import { errorStore, successStore, tokenStatusStore } from "../store/useStore";
           message: "Data deleted successfully"
         })
         errorStore.getState().clearState()
+        queryClient.invalidateQueries(keyword);
       },
       onError: (err) => {
         errorStore.getState().setState({
@@ -79,7 +81,6 @@ import { errorStore, successStore, tokenStatusStore } from "../store/useStore";
         })
         successStore.getState().clearState()
       },
-      onSettled: () => queryClient.invalidateQueries({ queryKey: [keyword] }),
     });
   }
   
