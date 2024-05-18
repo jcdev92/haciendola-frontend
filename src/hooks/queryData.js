@@ -11,17 +11,18 @@ import { errorStore, successStore, tokenStatusStore } from "../store/useStore";
     {
       onSuccess: () => {
         queryClient.invalidateQueries(keyword);
-        errorStore.getState().clearState()
         successStore.getState().setState({
           statusCode: 200,
           message: "Data added successfully"
         })
+        errorStore.getState().clearState()
       },
       onError: (err) => {
         errorStore.getState().setState({
           statusCode: err.response.data.statusCode,
-          message: err.response.data.message
+          message: err.response.data.message.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(", ")
         })
+        successStore.getState().clearState()
       }
     });
     return mutation;
@@ -42,17 +43,18 @@ import { errorStore, successStore, tokenStatusStore } from "../store/useStore";
     return useMutation({
       mutationFn: async ({id, data}) => await updateOne(keyword, {id, data}),
       onSuccess: () => {
-        errorStore.getState().clearState()
         successStore.getState().setState({
           statusCode: 200,
           message: "Data updated successfully"
         })
+        errorStore.getState().clearState()
       },
       onError: (err) => {
         errorStore.getState().setState({
-          statusCode: err.response.data.statusCode,
+          statusCode: err.response.data.message.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" "),
           message: err.response.data.message
         })
+        successStore.getState().clearState()
       },
       onSettled: () => queryClient.invalidateQueries({ queryKey: [keyword] }),
     });
@@ -64,17 +66,18 @@ import { errorStore, successStore, tokenStatusStore } from "../store/useStore";
     return useMutation({
       mutationFn: async (itemId) => await deleteOne(keyword, itemId),
       onSuccess: () => {
-        errorStore.getState().clearState()
         successStore.getState().setState({
           statusCode: 200,
           message: "Data deleted successfully"
         })
+        errorStore.getState().clearState()
       },
       onError: (err) => {
         errorStore.getState().setState({
-          statusCode: err.response.data.statusCode,
+          statusCode: err.response.data.message.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" "),
           message: err.response.data.message
         })
+        successStore.getState().clearState()
       },
       onSettled: () => queryClient.invalidateQueries({ queryKey: [keyword] }),
     });
@@ -94,7 +97,7 @@ import { errorStore, successStore, tokenStatusStore } from "../store/useStore";
     checkTokenExpired(token)
       .catch((err) => {
         errorStore.getState().setState({
-          statusCode: err.response.data.statusCode,
+          statusCode: err.response.data.message,
           message: err.response.data.message
         })
         tokenStatusStore.getState().setState({

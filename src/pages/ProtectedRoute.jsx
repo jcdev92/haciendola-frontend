@@ -2,6 +2,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { tokenStatusStore } from "../store/useStore";
 import { checkTokenStatus } from "../hooks/queryData";
+import { useEffect } from "react";
 
 export const ProtectedRoute = ({ redirectTo = "/", children }) => {
 
@@ -9,12 +10,15 @@ export const ProtectedRoute = ({ redirectTo = "/", children }) => {
   checkTokenStatus(token)
 
   const tokenState = tokenStatusStore.getState().state.isLoggedIn;
-  console.log(tokenState)
 
   // validate if the token is expired or not
-  if (tokenState === false) {
-    return <Navigate to={redirectTo} />;
-  }
+  useEffect(() => {
+    if (!tokenState) {
+      localStorage.removeItem("token");
+      <Navigate to={redirectTo} />
+    }
+  }, [tokenState, redirectTo])
+
 
   // if arrive one children, return this children, else if arrive a lot of childrens, return <Outlet />
   return children ? children : <Outlet />;

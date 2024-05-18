@@ -1,32 +1,22 @@
-import { useNavigate } from 'react-router-dom';
 /* eslint-disable react/prop-types */
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-} from "material-react-table";
+import {  MaterialReactTable,  useMaterialReactTable} from "material-react-table";
 import { Box, Button, IconButton, Tooltip } from "@mui/material";
-import {
-  useCreate,
-  useUpdate,
-  useDelete,
-  useGet,
-  checkTokenStatus,
-} from "../../../hooks/queryData";
-import { ErrorAlert } from "../../Alerts/ErrorAlert";
-import { SuccessAlert } from "../../Alerts/SuccessAlert";
+import { ErrorAlert, SuccessAlert } from "../../Alerts";
+import { errorStore, successStore, tokenStatusStore } from "../../../store/useStore"
 import { parseValues, parseUpdateValues } from "../Products/helpers/validation/parseValues";
+import { useCreate,  useUpdate,  useDelete,  useGet,  checkTokenStatus,} from "../../../hooks/queryData";
 import { useEffect, useMemo, useState } from "react";
 import { validateData } from "../Products/helpers/validation/validators";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { errorStore, successStore, tokenStatusStore } from "../../../store/useStore"
+import { useNavigate } from "react-router-dom";
 
 export const TableContainer = ({ keyword }) => {
   const [validationErrors, setValidationErrors] = useState({});
 
   const errorStatus = errorStore.getState().state.statusCode;
   const successStatus = successStore.getState().state.statusCode;
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");  
   const tokenState = tokenStatusStore.getState().state.isLoggedIn;
   const navigate = useNavigate();
   useEffect(() => {
@@ -35,6 +25,19 @@ export const TableContainer = ({ keyword }) => {
       localStorage.removeItem("token");
     }
   }, [tokenState, navigate]);
+
+
+  console.log(
+    validationErrors?.handle, 
+    validationErrors?.title,
+    validationErrors?.description,
+    validationErrors?.sku,
+    validationErrors?.grams,
+    validationErrors?.price,
+    validationErrors?.comparePrice,
+    validationErrors?.barcode,
+    validationErrors?.isActiveA,
+  )
 
   const columns = useMemo(
     () => [
