@@ -1,8 +1,6 @@
 import "./App.css";
 import { AnimatePresence } from "framer-motion";
-import { ProductsPage, DashboardPage } from "./pages/DashboardPage.jsx";
-import { NotFoundPage } from "./pages/NotFoundPage.jsx";
-import { LoginPage } from "./pages/LoginPage";
+import { DashboardPage, LoginPage, NotFoundPage, ProductsPage } from "./pages";
 import { ProtectedRoute } from "./pages/ProtectedRoute";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";

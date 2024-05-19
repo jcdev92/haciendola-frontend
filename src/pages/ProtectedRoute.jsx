@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import { Navigate, Outlet } from "react-router-dom";
-import { tokenStatusStore } from "../store/useStore";
-import { checkTokenStatus } from "../hooks/queryData";
+import { tokenStatusStore } from "../store/store";
+import { checkTokenStatus } from "../hooks/useQueryData";
 import { useEffect } from "react";
 
 export const ProtectedRoute = ({ redirectTo = "/", children }) => {
 
   const token = localStorage.getItem("token");
-  checkTokenStatus(token)
+  checkTokenStatus(token);
 
   const tokenState = tokenStatusStore.getState().state.isLoggedIn;
 
