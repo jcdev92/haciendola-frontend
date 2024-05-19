@@ -1,12 +1,12 @@
 import { AnimatePresence } from "framer-motion";
-import { TableContainer } from "../Table/Table";
+import { Table } from "../Table/Table";
 
 export const Products = () => {
   const keyword = "product";
   return (
     <div className="flex flex-col bg-transparent overflow-auto items-center justify-center text-white ">
       <AnimatePresence initial={true} mode="wait">
-        <TableContainer keyword={keyword} />
+        <Table keyword={keyword} />
       </AnimatePresence>
     </div>
   );

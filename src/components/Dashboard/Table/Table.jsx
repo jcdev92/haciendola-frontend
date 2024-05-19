@@ -30,7 +30,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
 import { getColumns } from "../Products/data/columns";
 
-export const TableContainer = ({ keyword }) => {
+export const Table = ({ keyword }) => {
   const [validationErrors, setValidationErrors] = useState({});
 
   const errorStatus = errorStore.getState().state.statusCode;
@@ -176,8 +176,8 @@ export const TableContainer = ({ keyword }) => {
     ),
 
     state: {
-      isLoading: isLoading,
-      isSaving: isCreating || isUpdating || isDeleting,
+      isLoading: isLoading || checkTokenStatus(token),
+      isSaving: isCreating || isUpdating || isDeleting || checkTokenStatus(token),
       showAlertBanner: isError,
       showProgressBars: isFetching || checkTokenStatus(token),
     },
