@@ -5,9 +5,9 @@ import {
 } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { errorStore, successStore, tokenStatusStore } from "../../store/useStore";
+import { errorStore, successStore, tokenStatusStore } from "../../../store/store";
 
-export const Sidebar = () => {
+export const Navbar = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
     navigate("/");

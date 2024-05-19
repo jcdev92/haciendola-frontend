@@ -1,5 +1,5 @@
 import { AnimatePresence } from "framer-motion";
-import { TableContainer } from "../TableContainer/TableContainer";
+import { TableContainer } from "../Table/Table";
 
 export const Products = () => {
   const keyword = "product";

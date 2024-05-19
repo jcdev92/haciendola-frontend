@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addOne, checkTokenExpired, deleteOne, getMany, loginFetch, updateOne } from "./useFetch";
-import { errorStore, successStore, tokenStatusStore } from "../store/useStore";
+import { errorStore, successStore, tokenStatusStore } from "../store/store";
 
   
   // CREATE hook (corrected)

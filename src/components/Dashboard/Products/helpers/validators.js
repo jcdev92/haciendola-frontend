@@ -47,7 +47,7 @@ export const createObjectValidationErrors = (newValidationErrors) => {
 
  // Helper function to process data
  export const processCreateData = (values) => {
-  let cleanedEmptyValues = clearEmptyFields(values);
+  let cleanedEmptyValues = clearEmptyValues(values);
   
   if (cleanedEmptyValues.price) {
     cleanedEmptyValues = {
@@ -87,7 +87,7 @@ export const processUpdateData = (values) => {
 }
 
 
-export function clearEmptyFields(data) {
+export function clearEmptyValues(data) {
   const newData = {};
   for (let key in data) {
     if (data[key] !== "") {

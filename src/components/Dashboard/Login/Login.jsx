@@ -4,7 +4,7 @@ import { loginFetch } from "../../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "../../Alerts/Loading";
 import Form from "./Form";
-import { errorStore, tokenStatusStore, successStore } from "../../../store/useStore";
+import { errorStore, tokenStatusStore, successStore } from "../../../store/store";
 
 export const Login = () => {
   const navigate = useNavigate();

@@ -22,6 +22,7 @@ const errorStore = createStore("error-storage", {
     statusCode: null,
     message: null,
 });
+
 const successStore = createStore("success-storage", {
     statusCode: null,
     message: null,
@@ -30,6 +31,7 @@ const successStore = createStore("success-storage", {
 const tokenStatusStore = createStore("token-storage", {
   isLoggedIn: false,
 });
+
 
 
 export {
