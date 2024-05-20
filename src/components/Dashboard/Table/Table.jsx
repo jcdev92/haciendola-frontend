@@ -60,7 +60,7 @@ export const Table = ({ keyword }) => {
   } = useGet(keyword);
 
   fetchedData = processArray(fetchedData)
-
+  
   //call CREATE hook
   const { mutateAsync: createData, isPending: isCreating } = useCreate(keyword);
 

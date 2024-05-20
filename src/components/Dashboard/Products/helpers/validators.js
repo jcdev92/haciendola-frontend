@@ -100,9 +100,10 @@ export function clearEmptyValues(data) {
 
 export const processArray = (array) => {
     array.forEach(element => {
-        if (element.isActive) {
+        if (element.isActive === true) {
             element.isActive = 'YES'
-        } else {
+        }
+        if (element.isActive === false) {
             element.isActive = 'NO'
         }
     });
