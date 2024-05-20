@@ -9,7 +9,8 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        "milky-way" : "url('../img/pexels-photo-924824.webp')"
+        "milky-way" : "url('../img/pexels-photo-924824.webp')",
+        "inventory" : "url('../img/16557.webp')"
       },
       scale: {
         '98' : '0.98',

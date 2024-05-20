@@ -99,14 +99,16 @@ export function clearEmptyValues(data) {
 
 
 export const processArray = (array) => {
-    array.forEach(element => {
-        if (element.isActive === true) {
-            element.isActive = 'YES'
-        }
-        if (element.isActive === false) {
-            element.isActive = 'NO'
-        }
-    });
-    return array
-}
+  array.forEach(element => {
+    // eslint-disable-next-line no-prototype-builtins
+    if (element.hasOwnProperty('isActive')) { // Check for property existence
+      if (element.isActive === true) {
+        element.isActive = 'YES';
+      } else if (element.isActive === false) {
+        element.isActive = 'NO';
+      }
+    }
+  });
+  return array;
+};
 
