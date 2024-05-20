@@ -170,6 +170,19 @@ export const Table = ({ keyword }) => {
           successStore.getState().clearState();
           errorStore.getState().clearState();
         }}
+        sx={{
+          mr: 2,
+          backgroundColor: "orange",
+          color: "white",
+          "&:hover": {
+            scale: 1.1,
+            transform: "translateY(2px)",
+            boxShadow: "0 4px 20px 0 rgb(0 0 0 / 10%)",
+            backgroundColor: "orange",
+            transition: "all 0.3s ease-in-out",
+            color: "black",
+          },
+        }}
       >
         Create New {`${keyword}`}
       </Button>
