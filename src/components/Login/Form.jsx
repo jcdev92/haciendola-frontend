@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import { ErrorAlert } from "../../Alerts/ErrorAlert";
+import { ErrorAlert } from "../Alerts/ErrorAlert";
 import { FaM } from "react-icons/fa6";
 import { AiFillLock } from "react-icons/ai";
 import { Button, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
-import { errorStore } from "../../../store/store";
+import { errorStore } from "../../store/store";
 
 const Form = ({data}) => {
     const { register, handleSubmit } = useForm();

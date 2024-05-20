@@ -1,10 +1,10 @@
 import { useState } from 'react';
 "use client";
-import { loginFetch } from "../../../hooks/useFetch";
+import { loginFetch } from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
-import { Loading } from "../../Alerts/Loading";
+import { Loading } from "../Alerts/Loading";
 import Form from "./Form";
-import { errorStore, tokenStatusStore, successStore } from "../../../store/store";
+import { errorStore, tokenStatusStore, successStore } from "../../store/store";
 
 export const Login = () => {
   const navigate = useNavigate();

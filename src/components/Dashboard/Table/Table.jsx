@@ -24,6 +24,7 @@ import {
   createObjectValidationErrors,
   processCreateData,
   processUpdateData,
+  processArray,
 } from "../Products/helpers/validators";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -51,12 +52,14 @@ export const Table = ({ keyword }) => {
   );
 
   //call GET hook
-  const {
+  let {
     data: fetchedData = [],
     isError,
     isFetching,
     isLoading,
   } = useGet(keyword);
+
+  fetchedData = processArray(fetchedData)
 
   //call CREATE hook
   const { mutateAsync: createData, isPending: isCreating } = useCreate(keyword);
@@ -85,10 +88,10 @@ export const Table = ({ keyword }) => {
   //UPDATE action
   const handleSaveData = async ({ values, table }) => {
     try {
-      const { id, parsedValues } = processUpdateData(values); // Asegúrate de que esto devuelve los valores correctos
+      const { id, parsedValues } = processUpdateData(values); 
       await validateUpdateData(parsedValues);
       setValidationErrors({});
-      await updateData({ id, data: parsedValues }); // Pasa los datos correctamente
+      await updateData({ id, data: parsedValues }); 
       table.setEditingRow(null);
     } catch (newValidationErrors) {
       const validationErrorsObject =

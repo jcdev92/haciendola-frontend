@@ -97,3 +97,15 @@ export function clearEmptyValues(data) {
   return newData;
 }
 
+
+export const processArray = (array) => {
+    array.forEach(element => {
+        if (element.isActive) {
+            element.isActive = 'YES'
+        } else {
+            element.isActive = 'NO'
+        }
+    });
+    return array
+}
+
