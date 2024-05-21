@@ -118,6 +118,15 @@ export const Table = ({ keyword }) => {
     editDisplayMode: "row", // ('modal', 'cell', 'table', and 'custom' are also available)
     enableEditing: true,
     getRowId: (row) => row.id,
+    initialState: {
+      density: "compact",
+    },
+    muiTableProps: {
+      stickyHeader: true,
+      sx: {
+        boxShadow: "initial",
+      },
+    },
     muiToolbarAlertBannerProps: isError
       ? {
           color: "error",
